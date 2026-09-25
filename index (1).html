@@ -1,0 +1,52 @@
+
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FitBuddy</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:#0a0a0a;color:#fff;padding:16px}
+.header{font-size:28px;font-weight:800;color:#22c55e}
+.header span{color:#fff}
+.grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:20px}
+@media(min-width:768px){.grid{grid-template-columns:1fr 1fr 1fr}}
+.card{background:#171717;border:1px solid #262626;padding:18px;border-radius:18px}
+.card h2{font-size:18px;margin-bottom:10px}
+input{width:100%;padding:12px;border-radius:10px;border:1px solid #333;background:#0f0f0f;color:#fff;margin-top:8px;outline:none}
+button{width:100%;padding:12px;border-radius:10px;border:0;background:#22c55e;color:#000;font-weight:800;margin-top:10px;cursor:pointer}
+ul{list-style:none;margin-top:10px} li{background:#0f0f0f;padding:10px;border-radius:10px;margin-top:6px;display:flex;justify-content:space-between}
+.bmi-res{margin-top:10px;color:#22c55e;font-weight:700}
+</style>
+</head>
+<body>
+<div class="header">FitBuddy<span> 💪</span></div>
+<p style="color:#888;margin-top:4px">Track. Train. Transform.</p>
+<div class="grid">
+  <div class="card">
+    <h2>🏋️ Workout Today</h2>
+    <input id="workInput" placeholder="Ex: Pushups 20 reps">
+    <button onclick="addWork()">+ Add Workout</button>
+    <ul id="workList"></ul>
+  </div>
+  <div class="card">
+    <h2>📊 BMI Calculator</h2>
+    <input type="number" id="w" placeholder="Weight (kg)">
+    <input type="number" id="h" placeholder="Height (cm)">
+    <button onclick="calcBMI()">Calculate</button>
+    <div id="bmiRes" class="bmi-res"></div>
+  </div>
+  <div class="card">
+    <h2>💧 Water Tracker</h2>
+    <h1 id="waterCount" style="font-size:40px;margin:10px 0">0 / 8</h1>
+    <p style="color:#888;font-size:13px">Glasses today</p>
+    <button onclick="addWater()">+1 Glass</button>
+    <button onclick="resetWater()" style="background:#262626;color:#fff">Reset</button>
+  </div>
+</div>
+<script>
+// Load from storage
+let workouts = JSON.parse(localStorage.getItem('fb_workouts')||'["Pushups - 30 reps","Squats - 50 reps"]');
+let water = parseInt(localStorage.getItem('fb_water')||'0');
+function renderWork(){ document.getElementById('workList').innerHTML = workouts.map((w,i)=>`<li>${w} <span onclick="delWork(${i})" style="color:red;cursor:pointer">✕</span></li>`).join(''); }
+function addWork(){ let v=document.getElementById('workInput').value.trim(); if(!v) return; workouts.push(v); localStorage.setItem('fb_workouts',JSON.stringify(workouts)); document.getElementById('workInput').value=''; renderWork(); }
+function delWor
